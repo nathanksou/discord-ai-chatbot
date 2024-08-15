@@ -36,7 +36,7 @@ const createVectorStore = async () => {
 const createAgent = async (vectorStore) => {
   const model = new ChatOpenAI({
     modelName: "gpt-3.5-turbo",
-    temperature: 0.7,
+    temperature: 0.5,
     verbose: true,
   });
 

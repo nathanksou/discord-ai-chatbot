@@ -11,23 +11,13 @@ import { DiscordRequest, getRandomEmoji } from "./app/utils.js";
 const chatHistory = [];
 const agent = await initializeAgent();
 
-// Create an express app
 const app = express();
-// Get port, or default to 3000
 const PORT = process.env.PORT || 3000;
 
-// Store for in-progress games. In production, you'd want to use a DB
-const activeGames = {};
-
-/**
- * Interactions endpoint URL where Discord will send HTTP requests
- * Parse request body and verifies incoming requests using discord-interactions package
- */
 app.post(
   "/interactions",
   verifyKeyMiddleware(process.env.PUBLIC_KEY),
   async function (req, res) {
-    // Interaction type and data
     const { type, id, data } = req.body;
 
     /**
@@ -44,33 +34,25 @@ app.post(
     if (type === InteractionType.APPLICATION_COMMAND) {
       const { name } = data;
 
-      // "test" command
       if (name === "test") {
-        // Send a message into the channel where command was triggered from
         return res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
           data: {
-            // Fetches a random emoji to send from a helper function
             content: `hello world ${getRandomEmoji()}`,
           },
         });
       }
 
       if (name === "chat" && id) {
-        // Interaction context
         const context = req.body.context;
-        // User ID is in user field for (G)DMs, and member for servers
         const userId =
           context === 0 ? req.body.member.user.id : req.body.user.id;
-
-        const input = `User ${userId} says: ${data.options[0].value}`;
+        const message = data.options[0].value;
+        const input = `User ${userId} says: ${message}`;
 
         res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          data: {
-            // Fetches a random emoji to send from a helper function
-            content: `${data.options[0].value} ${getRandomEmoji()}`,
-          },
+          data: { content: message },
         });
 
         const responseFromAI = await agent.invoke({
