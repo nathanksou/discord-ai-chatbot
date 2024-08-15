@@ -5,8 +5,8 @@ import {
   verifyKeyMiddleware,
 } from "discord-interactions";
 import express from "express";
-import { initializeAgent } from "./llm.js";
-import { DiscordRequest, getRandomEmoji } from "./utils.js";
+import { initializeAgent } from "./app/llm.js";
+import { DiscordRequest, getRandomEmoji } from "./app/utils.js";
 
 const chatHistory = [];
 const agent = await initializeAgent();

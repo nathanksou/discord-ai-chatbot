@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { InstallGlobalCommands } from "./utils.js";
 
 // Simple test command
