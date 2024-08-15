@@ -8,6 +8,8 @@ import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { AgentExecutor, createOpenAIFunctionsAgent } from "langchain/agents";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
+
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const createVectorStore = async () => {
